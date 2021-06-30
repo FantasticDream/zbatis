@@ -56,6 +56,12 @@ public class Reflector {
                 .findAny().ifPresent(constructor -> this.defaultConstructor = constructor);
     }
 
+    /**
+     * for example，method getId, conflictingGetters<id,list<method>> method is getId function
+     * Map<String, Invoker> getMethods <id,methodInvoker(type(return type,long),method)>
+     * Map<String, Class<?>> getTypes <id,return type>
+     * @param clazz
+     */
     private void addGetMethods(Class<?> clazz) {
         Map<String, List<Method>> conflictingGetters = new HashMap<>();
         Method[] methods = getClassMethods(clazz);
