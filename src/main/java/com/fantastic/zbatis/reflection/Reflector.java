@@ -23,11 +23,12 @@ public class Reflector {
     private final Map<String, Class<?>> setTypes = new HashMap<>();
     private final Map<String, Class<?>> getTypes = new HashMap<>();
 
-    /**
-     * 无参构造器获取
-     */
     private Constructor<?> defaultConstructor;
 
+    /**
+     * ID -> id
+     * NAME -> name
+     */
     private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
     public Reflector(Class<?> clazz) {
@@ -47,7 +48,7 @@ public class Reflector {
     }
 
     /**
-     * 无参构造器获取方法
+     * no args construct
      * @param clazz
      */
     private void addDefaultConstructor(Class<?> clazz) {
@@ -58,6 +59,7 @@ public class Reflector {
 
     /**
      * for example，method getId, conflictingGetters<id,list<method>> method is getId function
+     *
      * Map<String, Invoker> getMethods <id,methodInvoker(type(return type,long),method)>
      * Map<String, Class<?>> getTypes <id,return type>
      * @param clazz
@@ -113,6 +115,12 @@ public class Reflector {
         getTypes.put(name, typeToClass(returnType));
     }
 
+    /**
+     * for example，method getId, conflictingSetters<id,list<method>> method is getId function
+     * Map<String, Invoker> setMethods <id,methodInvoker(type(parameter type,long),method)>
+     * Map<String, Class<?>> setTypes <id,parameter type>
+     * @param clazz
+     */
     private void addSetMethods(Class<?> clazz) {
         Map<String, List<Method>> conflictingSetters = new HashMap<>();
         Method[] methods = getClassMethods(clazz);
